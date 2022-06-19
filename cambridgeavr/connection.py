@@ -2,6 +2,7 @@
 import asyncio
 import logging
 from typing import Callable
+
 from .protocol import AVR
 
 __all__ = ["Connection"]
@@ -13,21 +14,12 @@ class Connection:
     def __init__(self):
         """Instantiate the Connection object."""
         self.log = logging.getLogger(__name__)
-        self.host = ""
-        self.port = 0
-        self._loop: asyncio.AbstractEventLoop = None
-        self._retry_interval = 1
-        self._closed = False
-        self._closing = False
-        self._halted = False
-        self._auto_reconnect = False
-        self.protocol: asyncio.Protocol = None
 
     @classmethod
     async def create(
         cls,
         host: str = "localhost",
-        port: int = 14999,
+        port: int = 8899,
         auto_reconnect: bool = True,
         loop: asyncio.AbstractEventLoop = None,
         protocol_class: asyncio.Protocol = AVR,
@@ -60,7 +52,7 @@ class Connection:
         :type update_callback:
             callable
         """
-        assert port >= 0, f"Invalid port value: {port}"
+        assert port >= 0, "Invalid port value: %r" % (port)
         conn = cls()
 
         conn.host = host
@@ -73,7 +65,7 @@ class Connection:
         conn._auto_reconnect = auto_reconnect
 
         async def connection_lost():
-            """Function callback for Protocoal class when connection is lost."""
+            """Function callback for Protocol class when connection is lost."""
             if conn._auto_reconnect and not conn._closing:
                 await conn.reconnect()
 
@@ -107,14 +99,13 @@ class Connection:
         self._retry_interval = min(300, 1.5 * self._retry_interval)
 
     async def reconnect(self):
-        """Connect to the host and keep the connection open"""
         while True:
             try:
                 if self._halted:
                     await asyncio.sleep(2)
                 else:
                     self.log.debug(
-                        "Connecting to Anthem AVR at %s:%d", self.host, self.port
+                        "Connecting to Azur AVR at %s:%d", self.host, self.port
                     )
                     await self._loop.create_connection(
                         lambda: self.protocol, self.host, self.port

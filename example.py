@@ -2,7 +2,7 @@
 
 import argparse
 import asyncio
-import anthemav
+import cambridgeavr
 import logging
 
 log = logging.getLogger(__name__)
@@ -31,7 +31,7 @@ async def test():
 
     log.info("Connecting to Anthem AVR at %s:%i" % (host, port))
 
-    conn = await anthemav.Connection.create(
+    conn = await cambridgeavr.Connection.create(
         host=host, port=port, loop=loop, update_callback=log_callback
     )
 

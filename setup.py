@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Setup for anthemav module."""
+"""Setup for cambridgeavr module."""
 from setuptools import setup
 
 
@@ -10,15 +10,15 @@ def readme():
 
 
 setup(
-    name="anthemav",
-    version="1.4.0b2",
-    author="David McNett",
-    author_email="nugget@macnugget.org",
-    url="https://github.com/nugget/python-anthemav",
+    name="cambridgeavr",
+    version="1.0.0",
+    author="Dario Breitenstein",
+    author_email="online@imakethings.ch",
+    url="https://github.com/chdabre/python-cambridgeavr",
     license="LICENSE",
-    packages=["anthemav"],
+    packages=["cambridgeavr"],
     scripts=[],
-    description="Python API for controlling Anthem Receivers",
+    description="Python API for controlling Cambridge Audio Receivers",
     long_description=readme(),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -31,8 +31,5 @@ setup(
     include_package_data=True,
     zip_safe=True,
     entry_points={
-        "console_scripts": [
-            "anthemav_monitor = anthemav.tools:monitor",
-        ]
     },
 )
